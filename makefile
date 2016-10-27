@@ -10,13 +10,24 @@ cLibName=us2066
 gccWiringPiDeps=-lwiringPi
 
 
+debianPackages=perl swig
+debianPackagedPerlModules=libtest-simple-perl
+
 #Macro to check the exit code of a make expression and possibly not fail on warnings
 RC      := test $$? -lt 100 
 
 
 build: compile
 
-install: build link configure
+restart:
+
+install: installPackages build perlDeploy link configure
+
+installPackages:
+	sudo apt-get install -y $(debianPackages)
+	sudo apt-get install -y $(debianPackagedPerlModules)
+
+perlDeploy:
 	./Build installdeps
 	./Build install
 
@@ -34,6 +45,7 @@ compile:
 	gcc -shared `perl -MConfig -e 'print $$Config{lddlflags}'` $(cLibName).o $(cLibName)_wrap.o -o $(cLibName).so $(gccWiringPiDeps); \
 	gcc -Wall -o test test.c $(gccWiringPiDeps);
 
+	mkdir -p $(pLib)/$(pPackage)
 	cp $(cBuildDir)/$(cLibName).pm $(pLib)/$(pPackage)/
 	cp $(cBuildDir)/$(cLibName).so $(pLib)/$(pPackage)/
 	cp $(cBuildDir)/test $(cLib)/test
