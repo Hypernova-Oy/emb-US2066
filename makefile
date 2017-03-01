@@ -7,7 +7,7 @@ systemConfigBaseDir=/etc
 programName=emb-rtttl
 
 cLibName=us2066
-gccWiringPiDeps=-lwiringPi
+gccWiringPiDeps=-lwiringPiDev -lwiringPi -lcrypt
 
 
 debianPackages=perl swig
