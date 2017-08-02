@@ -6,53 +6,30 @@
 
 #include "us2066SPI.h"
 
-/*
-  These package variables are overwritten from the us2066.c::init()-function
-*/
-int spi_timing = 250;
-int spi_receiveDelay = 50; //When we receive bits from the MPU, we need to give time for the MPU's registers to populate after receiving the "read"-command
-int spi_sendDelay = 0; //When we send bits, the MPU might need to process the bits before receiving new ones.
-//Using wiringPi pin notation
-unsigned char spi_pin_res = 30;
-unsigned char spi_pin_cs = 10;
-unsigned char spi_pin_sclk = 14;
-unsigned char spi_pin_sdin = 12;
-unsigned char spi_pin_sdout = 13;
-
-//#define spi_pin_res    30
-//#define spi_pin_cs     10
-#define SCLK   14
-#define SDIN   12
-#define SDOUT  13
-/*
-  EO package variable definition
-*/
-
-
 
 void chipSelect(bool on) {
     digitalWrite(spi_pin_cs, (!on)); //LOW is actually the chip selected value, so if we want to activate the chip, we invert the boolean
 }
 void _sendBit(int bit) {
-    digitalWrite(SCLK, LOW);
+    digitalWrite(spi_pin_sclk, LOW);
     //usleep(spi_sendDelay);
-    digitalWrite(SDIN, bit);
+    digitalWrite(spi_pin_sdin, bit);
     //usleep(spi_sendDelay);
-    digitalWrite(SCLK, HIGH);
+    digitalWrite(spi_pin_sclk, HIGH);
     //usleep(spi_sendDelay);
 }
 bool _receiveBit() {
-    digitalWrite(SCLK, LOW);
+    digitalWrite(spi_pin_sclk, LOW);
     usleep(spi_receiveDelay);
-    bool bit = digitalRead(SDOUT);
+    bool bit = digitalRead(spi_pin_sdout);
     usleep(spi_receiveDelay);
-    digitalWrite(SCLK, HIGH);
+    digitalWrite(spi_pin_sclk, HIGH);
     usleep(spi_receiveDelay);
     //printf("_receiveBit: %d\n", bit);
     return bit;
 }
 unsigned char _receiveByte() {
-    digitalWrite(SDIN, LOW); //Don't send anything, keep this LOW during receival
+    digitalWrite(spi_pin_sdin, LOW); //Don't send anything, keep this LOW during receival
 
     unsigned char byte = 0x00;
     short i;

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "us2066.c"
 
@@ -163,8 +164,71 @@ void run2() {
 //    displayOnOff(0,0,0);
 }
 
+void testPins()
+{
+    wiringPiSetupGpio();
+
+    pinMode(spi_pin_sclk, OUTPUT);
+    pinMode(spi_pin_sdin, OUTPUT);
+    pinMode(spi_pin_sdout, OUTPUT);
+    pinMode(spi_pin_cs, OUTPUT);
+    pinMode(spi_pin_res, OUTPUT);
+
+    printf("\nSPI pin SCLK check");
+    digitalWrite(spi_pin_sclk, HIGH);
+    usleep(1000000);
+    digitalWrite(spi_pin_sclk, LOW);
+
+    printf("\nSPI pin SDIN check");
+    digitalWrite(spi_pin_sdin, HIGH);
+    usleep(1000000);
+    digitalWrite(spi_pin_sdin, LOW);
+
+    printf("\nSPI pin SDOUT check");
+    digitalWrite(spi_pin_sdout, HIGH);
+    usleep(1000000);
+    digitalWrite(spi_pin_sdout, LOW);
+
+    printf("\nSPI pin CS check");
+    digitalWrite(spi_pin_cs, HIGH);
+    usleep(1000000);
+    digitalWrite(spi_pin_cs, LOW);
+
+    printf("\nSPI pin RES check");
+    digitalWrite(spi_pin_res, HIGH);
+    usleep(1000000);
+    digitalWrite(spi_pin_res, LOW);
+
+    printf("\nTest done!\n");
+}
+
+void testOled()
+{
+    init(); //1 microsecond wait between instructions
+
+    printf("Running manual tests for the NHD OLED display\n");
+    printf("Please stay put, stare at the OLED display and keep your hands and feet inside the vehicle\n");
+    printf("This won't hurt much\n");
+    printf("\n");
+    printf("You will observe the following phenomena:\n");
+    printf("-text in normal print as well as in double line print\n");
+    printf("-blocks filling up the display from left to right, top to bottom, 4x20 region\n");
+    printf("-an occasional blinking cursor\n");
+    printf("-the screen shutting down after the presentation\n");
+    printf("\n");
+    printf("Have fun!\n");
+
+    while (1) {
+
+        printf("Here we go again!\n");
+        run1();
+
+    }
+}
+
 int main(int argc,char const *argv[])
 {
+    /*
     unsigned char byte = 0b00000000;
     printf("\nbyte:");
     printBits(sizeof(byte), &byte);
@@ -184,25 +248,36 @@ int main(int argc,char const *argv[])
     printBits(sizeof(byte), &byte);
     byte |= 128;
     printBits(sizeof(byte), &byte);
-    
-    init(); //1 microsecond wait between instructions
+    */
 
-    printf("Running manual tests for the NHD OLED display\n");
-    printf("Please stay put, stare at the OLED display and keep your hands and feet inside the vehicle\n");
-    printf("This won't hurt much\n");
-    printf("\n");
-    printf("You will observe the following phenomena:\n");
-    printf("-text in normal print as well as in double line print\n");
-    printf("-blocks filling up the display from left to right, top to bottom, 4x20 region\n");
-    printf("-an occasional blinking cursor\n");
-    printf("-the screen shutting down after the presentation\n");
-    printf("\n");
-    printf("Have fun!\n");
-
-    while (1) {
-
-        printf("Here we go again!\n");
-        run2();
-
+    if (argc < 2)
+    {
+        printf("You must pass the type of test to run as parameter!\n");
+        printf("Valid tests are:\n");
+        printf("  pins\n");
+        printf("\n");
+        printf("    Blink each SPI pin. It is intended to connect SPI pins to leds to test if");
+        printf("    they are properly mapped.\n");
+        printf("\n");
+        printf("  oled\n");
+        printf("\n");
+        printf("    Runs the OLED display test suite.\n");
+        printf("    Make sure proper pins are wired first.\n");
+        printf("\n");
+        exit(2);
     }
+    if (strncmp(argv[1], "pins", 4) == 0)
+    {
+        testPins();
+    }
+    else if (strncmp(argv[1], "oled", 4) == 0)
+    {
+        testOled();
+    }
+    else
+    {
+        printf("Unknown parameter: %s", argv[1]);
+        exit(2);
+    }
+    return 0;
 }
