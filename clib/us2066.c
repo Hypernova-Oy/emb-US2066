@@ -165,25 +165,18 @@ void setSpiSendDelay(int SpiSendDelay) {
 }
 void setSpiPinRES(unsigned char pin) {
     spi_pin_res = pin;
-    pinMode(spi_pin_res, OUTPUT);
 }
 void setSpiPinCS(unsigned char pin) {
     spi_pin_cs = pin;
-    pinMode(spi_pin_cs, OUTPUT);
 }
 void setSpiPinSCLK(unsigned char pin) {
     spi_pin_sclk = pin;
-    pinMode(spi_pin_sclk, OUTPUT);
-    digitalWrite(spi_pin_sclk, HIGH);
 }
 void setSpiPinSDIN(unsigned char pin) {
     spi_pin_sdin = pin;
-    pinMode(spi_pin_sdin, OUTPUT);
-    digitalWrite(spi_pin_sdin, HIGH);
 }
 void setSpiPinSDOUT(unsigned char pin) {
     spi_pin_sdout = pin;
-    pinMode(spi_pin_sdout, INPUT);
 }
 
 /*

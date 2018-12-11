@@ -12,8 +12,24 @@ print "##Check your SPI cabling and keep an eye on the OLED display for the fire
 print "\n";
 print "##The OLED display also communicates with Raspberry Pi and this test is useful when ran automatically##\n";
 
-subtest "Test that hardware is properly configured", \&hardwareCheck;
-sub hardwareCheck {
+subtest "Set SPI pins prior to initialization", sub {
+    OLED::us2066::setSpiPinSCLK(  11  );
+    OLED::us2066::setSpiPinSDIN(  10  );
+    OLED::us2066::setSpiPinSDOUT(  9  );
+    OLED::us2066::setSpiPinCS(     8  );
+    OLED::us2066::setSpiPinRES(    0  );
+    OLED::us2066::init();
+    OLED::us2066::displayOnOff(1,0,0);
+    ok(1, "Didn't crash");
+};
+
+subtest "Multiple init-calls don't cause crashing", sub {
+    OLED::us2066::init();
+    OLED::us2066::init();
+    ok(1, "Didn't crash");
+};
+
+subtest "Test that hardware is properly configured", sub {
     my (@msg, $readBytes);
     $msg[0] = "KUHA ON TARKASTANUT ";
     $msg[1] = "POYTAKIRJAN. KUHA ON";
@@ -32,6 +48,6 @@ sub hardwareCheck {
     }
     sleep 1;
     OLED::us2066::displayOnOff(0,0,0);
-}
+};
 
 done_testing;
