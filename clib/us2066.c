@@ -4,8 +4,8 @@
 #include <stdbool.h>
 #include <wiringPi.h>
 
-#include "us2066SPI.c"
 #include "us2066.h"
+#include "us2066SPI.c"
 
 const int rowSelectCommands[] = {0x80, 0xA0, 0xC0, 0xE0};
 const unsigned char charPositions[4][20] = {
@@ -99,7 +99,7 @@ void clearDisplay() {
 */
 
 void init() {
-    wiringPiSetup();
+    wiringPiSetupGpio();
 
     pinMode(spi_pin_cs, OUTPUT);
     pinMode(spi_pin_res, OUTPUT);

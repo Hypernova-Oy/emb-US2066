@@ -3,7 +3,6 @@
 #include <unistd.h>
 #include <stdbool.h>
 #include <wiringPi.h>
-
 #include "us2066SPI.h"
 
 

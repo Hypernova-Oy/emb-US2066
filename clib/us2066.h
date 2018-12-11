@@ -1,3 +1,6 @@
+#ifndef US2066_HEADER_FILE
+#define US2066_HEADER_FILE
+
 #define NHD_TWOLINE_MODE_OFF 0
 #define NHD_TWOLINE_MODE_112 1
 #define NHD_TWOLINE_MODE_121 2
@@ -22,3 +25,4 @@ void setSpiPinSDOUT(unsigned char pin);
 void init();
 
 //extern char *get_time(char *timess);
+#endif /* US2066_HEADER_FILE */

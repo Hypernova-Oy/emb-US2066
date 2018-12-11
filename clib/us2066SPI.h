@@ -1,3 +1,6 @@
+#ifndef US2066SPI_HEADER_FILE
+#define US2066SPI_HEADER_FILE
+
 void chipSelect(bool on);
 void _sendBit(int bit);
 bool _receiveBit();
@@ -29,13 +32,14 @@ int spi_sendDelay = 0; //When we send bits, the MPU might need to process the bi
 
 */
 
-unsigned char spi_pin_sclk  = 30;
-unsigned char spi_pin_sdin  = 21;
-unsigned char spi_pin_sdout = 22;
-unsigned char spi_pin_cs    = 23;
-unsigned char spi_pin_res   = 24;
+unsigned char spi_pin_sclk  = 11;
+unsigned char spi_pin_sdin  = 10;
+unsigned char spi_pin_sdout = 9;
+unsigned char spi_pin_cs    = 8;
+unsigned char spi_pin_res   = 0;
 
 /*
   EO package variable definition
 */
 
+#endif /* US2066SPI_HEADER_FILE */

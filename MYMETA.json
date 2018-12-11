@@ -1,0 +1,34 @@
+{
+   "abstract" : "Driver for the NHD OLEDs using the US2066 microcontroller",
+   "author" : [
+      "Olli-Antti Kivilahti <olli-antti.kivilahti@jns.fi>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Module::Build version 0.422",
+   "license" : [
+      "unknown"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : "2"
+   },
+   "name" : "OLED-us2066",
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "Modern::Perl" : "1"
+         }
+      }
+   },
+   "provides" : {
+      "OLED::us2066" : {
+         "file" : "lib/OLED/us2066.pm"
+      },
+      "OLED::us2066c" : {
+         "file" : "lib/OLED/us2066.pm"
+      }
+   },
+   "release_status" : "stable",
+   "version" : "0",
+   "x_serialization_backend" : "JSON::PP version 2.27300_01"
+}

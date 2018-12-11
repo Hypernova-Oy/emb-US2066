@@ -1,6 +1,16 @@
 # emb-US2066
 Device driver using SPI for Newhaven Display OLEDs using the US2066 controller
 
-To convert hex codes to binary, you can use the following shell command:                                            
-                                                                                                                    
-    echo 'ibase=16;obase=2;FF'|bc
+By default uses the Raspberry Pi3+ hardware SPI-pins.
+Reset-pin is GPIO 0
+
+# Installation
+
+`sudo make install`
+
+# Testing
+
+`make`
+`make test`
+
+

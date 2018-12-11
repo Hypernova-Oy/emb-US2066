@@ -1,3 +1,10 @@
 *.komodoproject
 *.komodotools
 lib/OLED
+blib
+.vscode
+_build
+Build
+MANIFEST.SKIP.bak
+
+clib/test
