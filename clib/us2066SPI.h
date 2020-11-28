@@ -36,7 +36,7 @@ unsigned char spi_pin_sclk  = 11;
 unsigned char spi_pin_sdin  = 10;
 unsigned char spi_pin_sdout = 9;
 unsigned char spi_pin_cs    = 8;
-unsigned char spi_pin_res   = 0;
+unsigned char spi_pin_res   = 25;
 
 /*
   EO package variable definition

@@ -17,7 +17,7 @@ subtest "Set SPI pins prior to initialization", sub {
     OLED::us2066::setSpiPinSDIN(  10  );
     OLED::us2066::setSpiPinSDOUT(  9  );
     OLED::us2066::setSpiPinCS(     8  );
-    OLED::us2066::setSpiPinRES(    0  );
+    OLED::us2066::setSpiPinRES(   25  );
     OLED::us2066::init();
     OLED::us2066::displayOnOff(1,0,0);
     ok(1, "Didn't crash");
