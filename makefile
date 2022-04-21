@@ -11,10 +11,10 @@ gccWiringPiDeps=-lwiringPiDev -lwiringPi -lcrypt
 
 
 debianPackages=perl swig
-debianPackagedPerlModules=libtest-simple-perl
+debianPackagedPerlModules=libtest-simple-perl libmodern-perl-perl libmodule-build-perl
 
 #Macro to check the exit code of a make expression and possibly not fail on warnings
-RC      := test $$? -lt 100 
+RC      := test $$? -lt 100
 
 
 build: compile
