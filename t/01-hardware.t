@@ -2,7 +2,7 @@
 
 use Modern::Perl;
 
-use Test::More;
+use Test::More tests => 3;
 
 
 use OLED::us2066;
@@ -18,6 +18,8 @@ subtest "Set SPI pins prior to initialization", sub {
     OLED::us2066::setSpiPinSDOUT(  9  );
     OLED::us2066::setSpiPinCS(     8  );
     OLED::us2066::setSpiPinRES(   25  );
+    OLED::us2066::setSpiSendDelay(10  );
+    OLED::us2066::setSpiReceiveDelay(50);
     OLED::us2066::init();
     OLED::us2066::displayOnOff(1,0,0);
     ok(1, "Didn't crash");

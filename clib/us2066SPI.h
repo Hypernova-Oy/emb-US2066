@@ -19,7 +19,7 @@ unsigned char readData();
 
 int spi_timing = 250;
 int spi_receiveDelay = 50; //When we receive bits from the MPU, we need to give time for the MPU's registers to populate after receiving the "read"-command
-int spi_sendDelay = 0; //When we send bits, the MPU might need to process the bits before receiving new ones.
+int spi_sendDelay = 10; //When we send bits, the MPU might need to process the bits before receiving new ones.
 
 /*
   Using wiringPiSetup() pin notation, which is the wiringPi pin numbering

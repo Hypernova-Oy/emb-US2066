@@ -11,11 +11,11 @@ void chipSelect(bool on) {
 }
 void _sendBit(int bit) {
     digitalWrite(spi_pin_sclk, LOW);
-    //usleep(spi_sendDelay);
+    usleep(spi_sendDelay);
     digitalWrite(spi_pin_sdin, bit);
-    //usleep(spi_sendDelay);
+    usleep(spi_sendDelay);
     digitalWrite(spi_pin_sclk, HIGH);
-    //usleep(spi_sendDelay);
+    usleep(spi_sendDelay);
 }
 bool _receiveBit() {
     digitalWrite(spi_pin_sclk, LOW);
