@@ -112,9 +112,9 @@ void init() {
 
     //Soft-reset the display for a new try of configurations to take effect.
     digitalWrite(spi_pin_res, LOW);
-    usleep(500);
+    usleep(1000); //1ms, from the datasheet reference example code
     digitalWrite(spi_pin_res, HIGH);
-    usleep(500);
+    usleep(1000);
 
     command(0b00101010);  //______ function set (extended command set)       -> RE == 1, IS == 0
     command(0b01110001);  //__RE__ function selection A, disable internal Vdd regualtor
