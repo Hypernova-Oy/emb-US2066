@@ -1,6 +1,7 @@
 *.komodoproject
 *.komodotools
-lib/OLED
+lib/OLED/us2066.pm
+lib/OLED/us2066.so
 blib
 .vscode
 _build
