@@ -1,9 +1,9 @@
 package OLED::us2066::ROM_A;
 
 use Modern::Perl;
-binmode(STDOUT, ':utf8');
-binmode(STDERR, ':utf8');
 use utf8;
+
+use Encode;
 
 our $TRIANGLE_FILL_RIGHT  = chr(0x10);
 our $TRIANGLE_FILL_LEFT   = chr(0x11);
@@ -163,19 +163,28 @@ our $DOLLAR_SIGN          = chr(0xA2);
 our $YEN_SIGN             = chr(0xA3);
 
 
-our %translationMap = (
+our %utf8ToOledTranslationMap = (
   'Ä' => $CAPITAL_A_UMLAUT,
   'Ö' => $CAPITAL_O_UMLAUT,
   'ä' => $SMALL_A_UMLAUT,
   'ö' => $SMALL_O_UMLAUT,
   '“' => $QUOTE_BEGIN,
   '”' => $QUOTE_END,
-  '’' => $SINGLE_QUOTE,
+  "'" => $SINGLE_QUOTE,
   '—' => $MINUS,
   '@' => $AT_SIGN,
   '$' => $DOLLAR_SIGN,
 );
+our %oledToUtf8TranslationMap = reverse %utf8ToOledTranslationMap;
 
+# Additional translation aliases, which are lost during reverse translation (decoding?)
+# Define them here instead of the main translation table, otherwise handling aliases has undefined behaviour.
+$utf8ToOledTranslationMap{'’'} = $SINGLE_QUOTE;
+
+my $utf8Matcher = join("|", map {qr/\Q$_\E/} sort keys(%utf8ToOledTranslationMap));
+my $oledMatcher = join("|", map {qr/\Q$_\E/} sort keys(%oledToUtf8TranslationMap));
+$utf8Matcher = qr/($utf8Matcher)/;
+$oledMatcher = qr/($oledMatcher)/;
 
 =head translatePerlString
 
@@ -184,17 +193,25 @@ Perl strings need to be turned into ascii-strings and code points translated so 
 =cut
 
 sub translatePerlString {
-  require Encode;
   my ($perlString) = @_;
-  #warn("Translating \$perlString='$perlString', utf='".(Encode::is_utf8($perlString) ? 'true' : 'false')."'");
-  $perlString =~ s/([ÄÖäö“”’@\$—])/$translationMap{$1}/gsmu;
+  #warn("Translating \$perlString='$perlString', utf='".(Encode::is_utf8($perlString) ? 'true' : 'false')."'") unless (Encode::is_utf8($perlString));
+  $perlString =~ s/$utf8Matcher/$utf8ToOledTranslationMap{$1}/gsmu;
 
-  if (1) {
-    for (split(//, $perlString)) {
-      warn("Wide character '$_' detected, ord='".ord($_)."'. Update the character encoding translation rules.") if (ord($_) >= 256);
-    }
-  }
+  _checkWideCharacters($perlString);
   return $perlString;
+}
+
+sub translateOLEDString {
+  my ($oledString) = @_;
+  #warn("Translating \$oledString='$oledString', utf='".(Encode::is_utf8($oledString) ? 'true' : 'false')."'") if (Encode::is_utf8($oledString));
+  $oledString =~ s/$oledMatcher/$oledToUtf8TranslationMap{$1}/gsmu;
+  return $oledString;
+}
+
+sub _checkWideCharacters {
+  for (split(//, $_[0])) {
+    warn("Wide character '$_' detected, ord='".ord($_)."'. Update the character encoding translation rules.") if (ord($_) >= 256);
+  }
 }
 
 1;
